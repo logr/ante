@@ -1,0 +1,23 @@
+version: 2
+updates:
+  # Covers gradle/libs.versions.toml. build-logic declares no literal versions of its own,
+  # so the root catalog is the single place versions need bumping.
+  - package-ecosystem: gradle
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    groups:
+      androidx:
+        patterns:
+          - "androidx.*"
+    ignore:
+      # AGP and Kotlin must move together: AGP's built-in Kotlin pins a specific KGP version
+      # and the Compose compiler plugin has to match it. Bump these by hand, as a pair.
+      - dependency-name: "com.android.tools.build:gradle"
+      - dependency-name: "org.jetbrains.kotlin*"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly

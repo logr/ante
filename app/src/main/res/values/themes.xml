@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Parented on a platform theme rather than an AppCompat/MaterialComponents one: the app is
+  Compose-only and uses ComponentActivity, so no XML theme library is needed. Real theming
+  lives in core:designsystem from Week 2.
+-->
+<resources>
+    <style name="Theme.Ante" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
