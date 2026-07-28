@@ -35,3 +35,6 @@ google-services.json
 
 # Local Markdown Files
 *.local.md
+
+# ADR drafts (unallocated numbers, not published)
+docs/adr/_drafts/
