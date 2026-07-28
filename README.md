@@ -5,3 +5,7 @@ purpose of demonstrating Senior/Staff-level Android engineering skills. This
 is meant to be used for review and discussion rather than a live app with real
 users, although it should be capable of being used by real users as a showcase
 or demo.
+
+>[!NOTE]
+> Ante as in "Ante Up" - to put money in to be a part of something. Strong metaphor for a bill-splitting app and a fun,
+short word.
