@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Verifies the committed gradle-wrapper.jar against known-good checksums.
+      - uses: gradle/actions/wrapper-validation@v6
+
+      # Must match toolchainVersion in gradle/gradle-daemon-jvm.properties.
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # Handles dependency and build caching -- do not hand-roll actions/cache.
+      - uses: gradle/actions/setup-gradle@v6
+
+      # Configuration cache is enabled via gradle.properties, so no flag is needed here.
+      - run: ./gradlew assemble lint test spotlessCheck
