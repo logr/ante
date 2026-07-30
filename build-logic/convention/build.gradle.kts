@@ -22,6 +22,7 @@ dependencies {
     // compileOnly, never implementation: the AGP version that actually runs comes from the
     // root build's plugin resolution, not from here.
     compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.kotlin.gradlePlugin)
 }
 
 gradlePlugin {
@@ -33,6 +34,10 @@ gradlePlugin {
         register("androidCompose") {
             id = "ante.android.compose"
             implementationClass = "AndroidComposeConventionPlugin"
+        }
+        register("jvmLibrary") {
+            id = "ante.jvm.library"
+            implementationClass = "JvmLibraryConventionPlugin"
         }
     }
 }

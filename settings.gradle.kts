@@ -16,4 +16,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "ante"
+
 include(":app")
+
+include(":core:model")
