@@ -1,0 +1,9 @@
+# Default is "doc/adr", so override to our "docs" folder
+adr_dir = "docs/adr"
+
+# No legacy support needed
+mode = "nextgen"
+
+[templates]
+format = "madr"
+variant = "full"
