@@ -15,12 +15,12 @@ internal const val ANTE_MIN_SDK = 26
  * Typed against [CommonExtension] so the same function serves application and library modules.
  *
  * Two AGP 9 details shape how this is written:
- *  - [CommonExtension] takes no type parameters at all. Older examples write
- *    `CommonExtension<*, *, *, *, *, *>`, which no longer compiles.
- *  - [CommonExtension] exposes only getters. The lambda-accepting DSL overloads
- *    (`defaultConfig { }`, `compileOptions { }`) are declared on the concrete extension
- *    types such as `ApplicationExtension`, so configuration here goes through property
- *    access rather than nested blocks.
+ * - [CommonExtension] takes no type parameters at all. Older examples write `CommonExtension<*, *,
+ *   *, *, *, *>`, which no longer compiles.
+ * - [CommonExtension] exposes only getters. The lambda-accepting DSL overloads (`defaultConfig {
+ *   }`, `compileOptions { }`) are declared on the concrete extension types such as
+ *   `ApplicationExtension`, so configuration here goes through property access rather than nested
+ *   blocks.
  *
  * Kotlin's `jvmTarget` is intentionally not set: AGP 9 infers it from
  * `compileOptions.targetCompatibility`.

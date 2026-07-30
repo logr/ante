@@ -1,9 +1,6 @@
 [versions]
-# AGP 9.3.1 pins kotlin-gradle-plugin 2.2.10 for its built-in Kotlin support.
-# The Compose compiler plugin must track that exact version, so `kotlin` below is
-# not "latest Kotlin" -- it is "whatever AGP compiles with". Bump the two together.
 agp = "9.3.1"
-kotlin = "2.2.10"
+kotlin = "2.4.10"
 
 composeBom = "2026.06.01"
 desugarJdkLibs = "2.1.5"
@@ -12,7 +9,7 @@ androidxActivity = "1.13.0"
 androidxCore = "1.19.0"
 
 spotless = "8.9.0"
-ktlint = "1.8.0"
+ktfmt = "0.64"
 
 junit = "4.13.2"
 truth = "1.4.5"
@@ -28,6 +25,7 @@ truth = "1.4.5"
 
 [libraries]
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
@@ -47,4 +45,5 @@ truth = { module = "com.google.truth:truth", version.ref = "truth" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

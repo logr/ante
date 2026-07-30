@@ -7,7 +7,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) =
         with(target) {
             // No Kotlin plugin is applied: AGP 9 compiles Kotlin itself, and applying
-            // org.jetbrains.kotlin.android here fails with "Cannot add extension with name 'kotlin'".
+            // org.jetbrains.kotlin.android here fails with "Cannot add extension with name
+            // 'kotlin'".
             pluginManager.apply("com.android.application")
 
             extensions.configure<ApplicationExtension> {

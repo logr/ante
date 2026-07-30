@@ -17,8 +17,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 
 /**
- * Scaffold-only entry point. Real navigation and the Groups/Ledger surfaces land in Week 2;
- * this exists so the manifest, Compose compiler and launcher wiring are provably correct.
+ * Scaffold-only entry point. Real navigation and the Groups/Ledger surfaces land in Week 2; this
+ * exists so the manifest, Compose compiler and launcher wiring are provably correct.
  */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +36,7 @@ class MainActivity : ComponentActivity() {
 private fun AntePlaceholder(modifier: Modifier = Modifier) {
     Scaffold(modifier = modifier.fillMaxSize()) { contentPadding ->
         Box(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(contentPadding),
+            modifier = Modifier.fillMaxSize().padding(contentPadding),
             contentAlignment = Alignment.Center,
         ) {
             Text(

@@ -6,8 +6,8 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
 /**
- * Opt-in Compose support, kept separate from the module-archetype plugins so that modules
- * without any UI do not pay the Compose compiler's per-module build cost.
+ * Opt-in Compose support, kept separate from the module-archetype plugins so that modules without
+ * any UI do not pay the Compose compiler's per-module build cost.
  *
  * Reads the Android extension generically rather than requiring an application or library
  * extension, so this works unchanged on library modules.

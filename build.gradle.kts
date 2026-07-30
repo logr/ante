@@ -5,20 +5,11 @@
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.spotless)
 }
 
-val ktlintVersion = libs.versions.ktlint.get()
-
-// Passed explicitly rather than relied upon from .editorconfig: Spotless's ktlint step does
-// not pick up the root .editorconfig here, so these would silently have no effect. The same
-// keys are mirrored in .editorconfig so the IDE and ktlint CLI agree with the build.
-val ktlintOverrides =
-    mapOf(
-        // @Composable functions are PascalCase by convention, which standard:function-naming
-        // would otherwise reject on every composable in the project.
-        "ktlint_function_naming_ignore_when_annotated_with" to "Composable",
-    )
+val ktfmtVersion = libs.versions.ktfmt.get()
 
 spotless {
     // Targets are set by path rather than by source set: this root build has no Kotlin
@@ -26,11 +17,11 @@ spotless {
     kotlin {
         target("**/*.kt")
         targetExclude("**/build/**")
-        ktlint(ktlintVersion).editorConfigOverride(ktlintOverrides)
+        ktfmt(ktfmtVersion).kotlinlangStyle()
     }
     kotlinGradle {
         target("**/*.kts")
         targetExclude("**/build/**")
-        ktlint(ktlintVersion).editorConfigOverride(ktlintOverrides)
+        ktfmt(ktfmtVersion).kotlinlangStyle()
     }
 }

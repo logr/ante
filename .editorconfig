@@ -10,12 +10,10 @@ trim_trailing_whitespace = true
 max_line_length = 120
 
 [*.{kt,kts}]
-ktlint_code_style = ktlint_official
+# The build formats with ktfmt (kotlinlang style), which does not read this file. These
+# keys only align the IDE's formatter with what ktfmt produces (trailing commas).
 ij_kotlin_allow_trailing_comma = true
 ij_kotlin_allow_trailing_comma_on_call_site = true
-# @Composable functions are PascalCase by Compose convention; without this, ktlint's
-# standard:function-naming rule rejects every composable in the project.
-ktlint_function_naming_ignore_when_annotated_with = Composable
 
 [*.{xml,yml,yaml,json,toml}]
 indent_size = 2
