@@ -12,6 +12,8 @@ spotless = "8.9.0"
 ktfmt = "0.64"
 
 junit = "4.13.2"
+kotest = "6.2.3"
+kotlinx-coroutines = "1.11.0"
 
 # TODO(detekt): no detekt release currently works on this stack.
 #   io.gitlab.arturbosch:detekt 1.23.8 (last stable) is built against Gradle 8.12.1 /
@@ -39,6 +41,9 @@ androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 
 junit = { module = "junit:junit", version.ref = "junit" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
