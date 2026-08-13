@@ -6,17 +6,38 @@ import kotlin.math.sign
 /**
  * [Money] is a representation of money using [minorUnits] allowing for custom splitting that is
  * total-preserving. Adding or subtracting at the boundaries is checked and will throw an
- * [ArithmeticException].
+ * [ArithmeticException]. Construction with [Long.MIN_VALUE] will throw an
+ * [IllegalArgumentException].
  */
 @JvmInline
-value class Money(val minorUnits: Long) {
-    operator fun plus(other: Money) =
-        Money(minorUnits = Math.addExact(minorUnits, other.minorUnits))
+value class Money(val minorUnits: Long) : Comparable<Money> {
+    init {
+        require(minorUnits != Long.MIN_VALUE) {
+            "Invalid money amount: cannot be Long.MIN_VALUE"
+        }
+    }
 
-    operator fun minus(other: Money) =
-        Money(minorUnits = Math.subtractExact(minorUnits, other.minorUnits))
+    companion object {
+        val ZERO = Money(0)
+    }
 
-    operator fun compareTo(other: Money) = minorUnits.compareTo(other.minorUnits)
+    operator fun plus(other: Money): Money = checked(Math.addExact(minorUnits, other.minorUnits))
+
+    operator fun minus(other: Money): Money =
+        checked(Math.subtractExact(minorUnits, other.minorUnits))
+
+    operator fun unaryMinus(): Money = Money(minorUnits = Math.negateExact(minorUnits))
+
+    override operator fun compareTo(other: Money): Int = minorUnits.compareTo(other.minorUnits)
+
+    fun abs(): Money = Money(minorUnits.absoluteValue)
+
+    private fun checked(result: Long): Money {
+        if (result == Long.MIN_VALUE) {
+            throw ArithmeticException("Money overflow: result is Long.MIN_VALUE")
+        }
+        return Money(result)
+    }
 
     // NOTE: no operator div. Division is deliberately absent -
     // callers must use io.appkitchen.ante.core.model.splitEqually(), which is total-preserving.

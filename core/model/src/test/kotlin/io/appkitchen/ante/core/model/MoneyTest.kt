@@ -8,6 +8,25 @@ import kotlin.test.assertFailsWith
 class MoneyTest {
 
     @Test
+    fun `negation of money follows long negation`() {
+        assertEquals(expected = Money(Long.MAX_VALUE), actual = -Money(Long.MIN_VALUE + 1))
+        assertEquals(Money(Long.MIN_VALUE + 1), -Money(Long.MAX_VALUE))
+    }
+
+    @Test
+    fun `abs() gives the absolute value of minor units`() {
+        assertEquals(Money(Long.MIN_VALUE + 1).abs(), Money(Long.MAX_VALUE))
+        assertEquals(Money(Long.MAX_VALUE).abs(), Money(Long.MAX_VALUE))
+    }
+
+    @Test
+    fun `given MIN_VALUE, Money fails to create`() {
+        assertFailsWith<IllegalArgumentException> {
+            Money(Long.MIN_VALUE)
+        }
+    }
+
+    @Test
     fun `given a money value, can add another money value`() {
         val money = Money(9999)
         val one = Money(1)
@@ -56,9 +75,16 @@ class MoneyTest {
     }
 
     @Test
-    fun `given a min money value, then subtracting 1 causes overflow exception`() {
+    fun `given a min + 1 money value, then subtracting 1 causes arithmetic exception`() {
         assertFailsWith<ArithmeticException> {
-            Money(Long.MIN_VALUE) - Money(1)
+            Money(Long.MIN_VALUE + 1) - Money(1)
+        }
+    }
+
+    @Test
+    fun `given a min + 1 money value, then subtracting 2 causes arithmetic exception`() {
+        assertFailsWith<ArithmeticException> {
+            Money(Long.MIN_VALUE + 1) - Money(2)
         }
     }
 }
