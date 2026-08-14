@@ -32,4 +32,9 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6
 
       # Configuration cache is enabled via gradle.properties, so no flag is needed here.
-      - run: ./gradlew assemble lint test spotlessCheck
+      #
+      # verifyRoborazziDebug is named explicitly and is not redundant with `test`. Roborazzi
+      # only compares against goldens when the verify task puts the test JVM in verify mode;
+      # under plain `test` the same screenshot tests run and pass without comparing anything.
+      # Dropping it back to `test` alone makes the screenshot check silently decorative.
+      - run: ./gradlew assemble lint test verifyRoborazziDebug spotlessCheck
