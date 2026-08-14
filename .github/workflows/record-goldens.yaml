@@ -6,8 +6,8 @@ name: Record screenshot goldens
 # match (see TokenSampleScreenshotTest), so there is no tolerance absorbing that drift -- which
 # is deliberate, because a threshold wide enough to hide platform noise also hides regressions.
 #
-# Recording here makes ubuntu-latest the only source of truth, and turns a golden update into a
-# reviewable bot commit rather than an artifact of whoever ran it locally.
+# Recording here makes the pinned runner below the only source of truth, and turns a golden
+# update into a reviewable bot commit rather than an artifact of whoever ran it locally.
 #
 # Run it from the Actions tab against the branch whose goldens need updating.
 on:
@@ -24,7 +24,11 @@ permissions:
 
 jobs:
   record:
-    runs-on: ubuntu-latest
+    # Pinned rather than ubuntu-latest: comparison is an exact match, so the runner image is part
+    # of what a golden encodes. A silent rollover to the next LTS would fail every golden at once,
+    # on whatever PR happened to be open, and would read as a UI regression. Bump this
+    # deliberately and re-record in the same change. Must match runs-on in ci.yaml.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
 
@@ -46,7 +50,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A -- '*/src/test/screenshots/'
+          # A wildcard pathspec is matched against file paths, so a trailing slash matches
+          # nothing: 'screenshots/' aborts where 'screenshots/*.png' works. The wildcard is
+          # worth keeping -- if the goldens ever move, this fails the step rather than falling
+          # through to the "nothing to commit" branch below and reporting a false success.
+          git add -A -- '*/src/test/screenshots/*.png'
           if git diff --staged --quiet; then
             echo "Goldens already match this runner. Nothing to commit."
             exit 0

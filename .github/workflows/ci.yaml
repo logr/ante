@@ -15,7 +15,9 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Must match runs-on in record-goldens.yaml. verifyRoborazziDebug compares at an exact match,
+    # so a runner image other than the one that recorded the goldens fails all of them.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
 
