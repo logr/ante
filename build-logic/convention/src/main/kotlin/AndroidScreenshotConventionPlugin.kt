@@ -3,6 +3,7 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.testing.Test
+import org.gradle.internal.classpath.Instrumented.systemProperty
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.withType
@@ -50,6 +51,11 @@ class AndroidScreenshotConventionPlugin : Plugin<Project> {
             // golden it did not look at. Declared optional so a module can adopt the archetype
             // before it has recorded anything.
             tasks.withType<Test>().configureEach {
+                // The test resolves its capture paths from this rather than repeating the literal.
+                // A divergence would point the input declaration below at a directory nothing
+                // writes to, which is the silent version of the bug it exists to prevent.
+                systemProperty("ante.screenshotDir", SCREENSHOT_DIR)
+
                 inputs
                     .files(layout.projectDirectory.dir(SCREENSHOT_DIR).asFileTree)
                     .withPropertyName("roborazziGoldens")

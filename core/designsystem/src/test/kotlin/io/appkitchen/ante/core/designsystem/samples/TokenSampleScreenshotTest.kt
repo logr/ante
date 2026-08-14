@@ -43,7 +43,7 @@ class TokenSampleScreenshotTest {
     @Test fun spacing_dark() = capture("spacing_dark", dark = true) { SpacingSample() }
 
     private fun capture(name: String, dark: Boolean = false, content: @Composable () -> Unit) {
-        captureRoboImage("src/test/screenshots/$name.png", roborazziOptions = ExactMatch) {
+        captureRoboImage("$ScreenshotDir/$name.png", roborazziOptions = ExactMatch) {
             AnteTheme(darkTheme = dark) { content() }
         }
     }
@@ -57,5 +57,14 @@ class TokenSampleScreenshotTest {
          */
         val ExactMatch =
             RoborazziOptions(compareOptions = RoborazziOptions.CompareOptions(changeThreshold = 0f))
+
+        /**
+         * Set by ante.android.screenshot. Deliberately not defaulted: a fallback literal would
+         * write goldens to a directory the Test task is not watching, and the run would pass.
+         */
+        val ScreenshotDir: String =
+            requireNotNull(System.getProperty("ante.screenshotDir")) {
+                "ante.screenshotDir is unset, run screenshot tests through Gradle."
+            }
     }
 }
