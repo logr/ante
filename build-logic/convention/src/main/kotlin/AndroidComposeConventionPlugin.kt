@@ -29,16 +29,16 @@ class AndroidComposeConventionPlugin : Plugin<Project> {
                 add("implementation", platform(bom))
                 add("androidTestImplementation", platform(bom))
 
-                // Declared rather than left to material3's transitive graph: foundation is part
-                // of the Compose baseline every UI module uses, and depending on it by accident
-                // breaks the day a module wants foundation without material3.
-                add("implementation", libs.findLibrary("androidx-compose-foundation").get())
-
+                // Declared directly rather than inherited through each other's api graphs: UI
+                // modules import all four of these, and declaring them keeps the build working if
+                // an upstream artifact ever demotes one to implementation.
                 add("implementation", libs.findLibrary("androidx-compose-ui").get())
                 add("implementation", libs.findLibrary("androidx-compose-ui-graphics").get())
-                add("implementation", libs.findLibrary("androidx-compose-ui-tooling-preview").get())
+                add("implementation", libs.findLibrary("androidx-compose-foundation").get())
                 add("implementation", libs.findLibrary("androidx-compose-material3").get())
 
+                // Split across configurations so the preview renderer stays out of release builds.
+                add("implementation", libs.findLibrary("androidx-compose-ui-tooling-preview").get())
                 add("debugImplementation", libs.findLibrary("androidx-compose-ui-tooling").get())
             }
         }
