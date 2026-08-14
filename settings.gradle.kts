@@ -19,4 +19,8 @@ rootProject.name = "ante"
 
 include(":app")
 
+include(":catalogapp")
+
+include(":core:designsystem")
+
 include(":core:model")

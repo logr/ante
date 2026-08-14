@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Parented on a platform theme rather than an AppCompat/MaterialComponents one, matching :app:
+  the catalog is Compose-only and uses ComponentActivity, so no XML theme library is needed.
+-->
+<resources>
+    <style name="Theme.AnteCatalog" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
