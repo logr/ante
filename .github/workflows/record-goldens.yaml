@@ -1,0 +1,55 @@
+name: Record screenshot goldens
+
+# Manual only. Goldens must be recorded on this runner and never on a developer machine:
+# Robolectric renders through a per-OS Skia build, so a macOS recording and a Linux verification
+# differ by antialiasing even when nothing about the UI changed. Comparison runs at an exact
+# match (see TokenSampleScreenshotTest), so there is no tolerance absorbing that drift -- which
+# is deliberate, because a threshold wide enough to hide platform noise also hides regressions.
+#
+# Recording here makes ubuntu-latest the only source of truth, and turns a golden update into a
+# reviewable bot commit rather than an artifact of whoever ran it locally.
+#
+# Run it from the Actions tab against the branch whose goldens need updating.
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Wider than ci.yaml's read-only permissions on purpose: this workflow's whole point is pushing
+# the re-recorded goldens back. It is workflow_dispatch-only, so a fork PR cannot reach it.
+permissions:
+  contents: write
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Verifies the committed gradle-wrapper.jar against known-good checksums.
+      - uses: gradle/actions/wrapper-validation@v6
+
+      # Must match toolchainVersion in gradle/gradle-daemon-jvm.properties.
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # Handles dependency and build caching -- do not hand-roll actions/cache.
+      - uses: gradle/actions/setup-gradle@v6
+
+      - run: ./gradlew recordRoborazziDebug
+
+      - name: Commit re-recorded goldens
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- '*/src/test/screenshots/'
+          if git diff --staged --quiet; then
+            echo "Goldens already match this runner. Nothing to commit."
+            exit 0
+          fi
+          git commit -m "Record screenshot goldens on CI"
+          git push

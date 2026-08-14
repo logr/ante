@@ -1,0 +1,3 @@
+# Screenshot goldens are compared byte-for-byte. Any normalization on the way in or out of git
+# would rewrite them and break the comparison.
+*.png binary
