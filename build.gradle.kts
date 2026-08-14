@@ -2,8 +2,13 @@
 // build's control. That means AGP is absent from the convention plugins' *runtime* classpath
 // unless this root build loads it -- without the `apply false` alias below, applying
 // `ante.android.application` fails with NoClassDefFoundError on ApplicationExtension.
+// `android.library` resolves to the same com.android.tools.build:gradle artifact as
+// `android.application`, so it is redundant today. It is listed anyway: this block is meant to
+// read as an honest inventory of what the convention plugins apply, and it survives AGP ever
+// splitting the artifact.
 plugins {
     alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.spotless)

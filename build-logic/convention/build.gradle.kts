@@ -31,6 +31,10 @@ gradlePlugin {
             id = "ante.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
+        register("androidLibrary") {
+            id = "ante.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
         register("androidCompose") {
             id = "ante.android.compose"
             implementationClass = "AndroidComposeConventionPlugin"
