@@ -29,6 +29,11 @@ class AndroidComposeConventionPlugin : Plugin<Project> {
                 add("implementation", platform(bom))
                 add("androidTestImplementation", platform(bom))
 
+                // Declared rather than left to material3's transitive graph: foundation is part
+                // of the Compose baseline every UI module uses, and depending on it by accident
+                // breaks the day a module wants foundation without material3.
+                add("implementation", libs.findLibrary("androidx-compose-foundation").get())
+
                 add("implementation", libs.findLibrary("androidx-compose-ui").get())
                 add("implementation", libs.findLibrary("androidx-compose-ui-graphics").get())
                 add("implementation", libs.findLibrary("androidx-compose-ui-tooling-preview").get())
