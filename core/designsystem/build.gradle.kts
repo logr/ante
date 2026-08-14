@@ -1,6 +1,7 @@
 plugins {
     id("ante.android.library")
     id("ante.android.compose")
+    id("ante.android.screenshot")
 }
 
 // compileSdk, minSdk, Java 17 compatibility and core library desugaring all come from the
