@@ -39,6 +39,10 @@ gradlePlugin {
             id = "ante.android.compose"
             implementationClass = "AndroidComposeConventionPlugin"
         }
+        register("androidScreenshot") {
+            id = "ante.android.screenshot"
+            implementationClass = "AndroidScreenshotConventionPlugin"
+        }
         register("jvmLibrary") {
             id = "ante.jvm.library"
             implementationClass = "JvmLibraryConventionPlugin"

@@ -13,6 +13,10 @@ ktfmt = "0.64"
 
 junit = "4.13.2"
 kotest = "6.2.3"
+roborazzi = "1.72.0"
+# 4.16.1 rather than the 4.17 betas. See core/designsystem/src/test/resources/robolectric.properties
+# for why the rendered SDK is pinned below compileSdk.
+robolectric = "4.16.1"
 kotlinx-coroutines = "1.11.0"
 kotlinx-serialization = "1.11.0"
 
@@ -41,6 +45,15 @@ androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+
+# roborazzi-compose declares almost nothing transitively -- Robolectric and the Compose test
+# artifacts are compileOnly on its side, so every consumer supplies them.
+roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
+roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "roborazzi" }
+roborazzi-junit-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "roborazzi" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 
 junit = { module = "junit:junit", version.ref = "junit" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
@@ -55,4 +68,5 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
