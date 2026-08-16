@@ -1,6 +1,6 @@
 name: Record screenshot goldens
 
-# Manual only, and the single place goldens are recorded.
+# Manual only, and the canonical recorder.
 #
 # Not because the host OS has been observed to matter -- re-recording here reproduced the
 # macOS-recorded goldens byte for byte (2026-08-14, run 31840147580), since @GraphicsMode(NATIVE)
@@ -9,8 +9,12 @@ name: Record screenshot goldens
 # host difference, and comparison runs at an exact match (see TokenSampleScreenshotTest) with no
 # tolerance to absorb one.
 #
-# Recording in one place also turns a golden update into a reviewable bot commit rather than an
-# artifact of whoever happened to run it locally.
+# Goldens may also be recorded locally -- fork PRs cannot dispatch this workflow and have no
+# other path (see CONTRIBUTING.md). That loosens nothing: verifyRoborazziDebug re-renders
+# every PR on ci.yaml's pinned runner and rejects any golden that is not pixel-identical to
+# that render, so a recording from a drifting environment turns the gate red instead of
+# merging. For maintainer branches this workflow stays the better path: the update arrives as
+# a reviewable bot commit recorded in a known environment.
 #
 # Run it from the Actions tab against the branch whose goldens need updating.
 on:
@@ -24,6 +28,8 @@ concurrency:
 # the re-recorded goldens back. It is workflow_dispatch-only, so a fork PR cannot reach it.
 permissions:
   contents: write
+  # Lets the commit step dispatch ci.yaml on this branch after pushing (see that step).
+  actions: write
 
 jobs:
   record:
@@ -51,6 +57,8 @@ jobs:
       - run: ./gradlew recordRoborazziDebug
 
       - name: Commit re-recorded goldens
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -65,3 +73,8 @@ jobs:
           fi
           git commit -m "Record screenshot goldens on CI"
           git push
+          # That push used GITHUB_TOKEN, so it fired no pull_request event: the PR would keep
+          # showing CI for the commit *before* these goldens. Dispatch events are the
+          # exception to that rule, so start CI explicitly. gh is preinstalled on
+          # GitHub-hosted runners.
+          gh workflow run ci.yaml -R "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME"

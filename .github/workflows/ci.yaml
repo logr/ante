@@ -4,6 +4,11 @@ on:
   pull_request:
   push:
     branches: [main]
+  # record-goldens.yaml pushes with GITHUB_TOKEN, and events created with GITHUB_TOKEN start
+  # no workflow runs -- workflow_dispatch and repository_dispatch are the documented
+  # exceptions. That workflow therefore dispatches this one against the branch after pushing,
+  # so the newest CI run is never older than the goldens it is supposed to verify.
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
