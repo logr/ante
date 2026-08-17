@@ -53,7 +53,8 @@ class TokenSampleScreenshotTest {
          * Roborazzi's default `changeThreshold` is 1%, which on an 822x762 capture lets roughly six
          * thousand pixels change without failing - a whole component-sized region. A tolerance wide
          * enough to absorb environmental noise also hides real regressions, so the answer is an
-         * exact match plus a single recording host (see record-goldens.yaml), not a threshold.
+         * exact match against the render ci.yaml's pinned runner produces (see
+         * record-goldens.yaml), not a threshold.
          */
         val ExactMatch =
             RoborazziOptions(compareOptions = RoborazziOptions.CompareOptions(changeThreshold = 0f))

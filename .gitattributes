@@ -1,3 +1,4 @@
-# Screenshot goldens are compared byte-for-byte. Any normalization on the way in or out of git
-# would rewrite them and break the comparison.
+# Screenshot goldens are compared pixel-exactly against a fresh render; comparison decodes
+# both PNGs, so byte identity is not required, but any normalization on the way in or out of
+# git would corrupt the encoded stream and break decoding.
 *.png binary

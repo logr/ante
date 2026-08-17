@@ -4,6 +4,11 @@ on:
   pull_request:
   push:
     branches: [main]
+  # record-goldens.yaml pushes with GITHUB_TOKEN, and events created with GITHUB_TOKEN start
+  # no workflow runs -- workflow_dispatch and repository_dispatch are the documented
+  # exceptions. That workflow therefore dispatches this one against the branch after pushing,
+  # so the newest CI run is never older than the goldens it is supposed to verify.
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -41,3 +46,20 @@ jobs:
       # under plain `test` the same screenshot tests run and pass without comparing anything.
       # Dropping it back to `test` alone makes the screenshot check silently decorative.
       - run: ./gradlew assemble lint test verifyRoborazziDebug spotlessCheck
+
+      # Roborazzi writes comparison images (<name>_compare.png) under build/outputs/roborazzi
+      # and an HTML report under build/reports/roborazzi. Without this upload, a failed verify
+      # is a red check with no image, and recording is an approval step -- the reviewer has to
+      # be able to see what they would be approving.
+      #
+      # if-no-files-found is ignore because this fires on any failure of the gradle step; a
+      # lint or spotless failure produces no comparison images, and that is not an error.
+      - name: Upload screenshot diffs
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: roborazzi-comparisons
+          path: |
+            **/build/outputs/roborazzi/
+            **/build/reports/roborazzi/
+          if-no-files-found: ignore

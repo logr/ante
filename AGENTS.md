@@ -36,7 +36,7 @@ property-test assertions for money/settlement), boilerplate, formatting.
 CI runs exactly this on every PR (JDK 21 toolchain, Java 17 bytecode):
 
 ```
-./gradlew assemble lint test spotlessCheck
+./gradlew assemble lint test verifyRoborazziDebug spotlessCheck
 ```
 
 Run it before declaring work done. Formatting is Spotless + ktfmt
