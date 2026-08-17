@@ -51,9 +51,9 @@ class TokenSampleScreenshotTest {
     private companion object {
         /**
          * Roborazzi's default `changeThreshold` is 1%, which on an 822x762 capture lets roughly six
-         * thousand pixels change without failing - a whole component-sized region. A threshold that
-         * hides platform drift hides real regressions too, so the answer is an exact match plus
-         * goldens recorded on one platform, not a tolerance.
+         * thousand pixels change without failing - a whole component-sized region. A tolerance wide
+         * enough to absorb environmental noise also hides real regressions, so the answer is an
+         * exact match plus a single recording host (see record-goldens.yaml), not a threshold.
          */
         val ExactMatch =
             RoborazziOptions(compareOptions = RoborazziOptions.CompareOptions(changeThreshold = 0f))
