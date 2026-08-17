@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
  */
 internal val AnteLightColorScheme: ColorScheme =
     lightColorScheme(
-        primary = Color(0x000000),
+        primary = Color(0xFF000000),
         onPrimary = Color(0xFFFFFFFF),
         primaryContainer = Color(0xFFDDE1FE),
         onPrimaryContainer = Color(0xFF001A41),
