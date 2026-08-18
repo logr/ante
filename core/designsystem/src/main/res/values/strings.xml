@@ -5,4 +5,9 @@
 <resources>
     <string name="ante_state_voided">voided</string>
     <string name="ante_state_loading">Loading</string>
+    <!-- Spoken for the whole avatar stack: "4 members: Alex, Sam, Maya, Jordan". -->
+    <plurals name="ante_avatar_stack_members">
+        <item quantity="one">%1$d member: %2$s</item>
+        <item quantity="other">%1$d members: %2$s</item>
+    </plurals>
 </resources>
