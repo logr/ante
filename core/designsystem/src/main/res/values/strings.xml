@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Accessibility strings the components announce. Prefixed so they cannot collide with an app
+     module's resources once merged. Nothing user-visible on screen lives here: on-screen copy is
+     passed in by the caller. -->
+<resources>
+    <string name="ante_state_voided">voided</string>
+</resources>
