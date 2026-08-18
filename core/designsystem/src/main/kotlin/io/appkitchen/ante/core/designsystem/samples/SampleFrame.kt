@@ -87,5 +87,5 @@ fun SampleFrame.Render(modifier: Modifier = Modifier) {
  * `SampleMatrixTest` holds the totals to the spec's numbers.
  */
 object AnteSamples {
-    val components: List<ComponentSample> = listOf(MoneyTextSample)
+    val components: List<ComponentSample> = listOf(ButtonSample, MoneyTextSample)
 }
