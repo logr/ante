@@ -23,12 +23,12 @@ enum class MoneyStyle {
 }
 
 /**
- * An amount, coloured and weighted for its [tone].
+ * An amount, colored and weighted for its [tone].
  *
  * Does no formatting. [text] is the formatter's output, prefix included: the design system never
  * sees a `Money`, and the sign, symbol and grouping rules are one formatter's job (`core:ui`), not
  * something to be re-derived per component. What this owns is the rendering contract from the spec:
- * tone colour, tone weight, tabular figures, and exactly one line that never truncates, wraps or
+ * tone color, tone weight, tabular figures, and exactly one line that never truncates, wraps or
  * shrinks - the parent reserves the column width.
  *
  * Display only. Never a tap target, so no interaction states exist. Callers phrase the semantics
