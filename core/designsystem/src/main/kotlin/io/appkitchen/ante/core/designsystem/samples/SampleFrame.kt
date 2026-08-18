@@ -88,5 +88,12 @@ fun SampleFrame.Render(modifier: Modifier = Modifier) {
  */
 object AnteSamples {
     val components: List<ComponentSample> =
-        listOf(ButtonSample, MoneyTextSample, ListRowSample, AvatarStackSample, ChipSample)
+        listOf(
+            ButtonSample,
+            MoneyTextSample,
+            ListRowSample,
+            CardSample,
+            AvatarStackSample,
+            ChipSample,
+        )
 }
