@@ -48,6 +48,7 @@ class SampleMatrixTest {
                 "card" to 6,
                 "avatar_stack" to 6,
                 "chip" to 9,
+                "banner" to 5,
             )
     }
 }

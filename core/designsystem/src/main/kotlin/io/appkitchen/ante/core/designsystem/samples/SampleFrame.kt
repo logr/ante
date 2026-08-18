@@ -95,5 +95,6 @@ object AnteSamples {
             CardSample,
             AvatarStackSample,
             ChipSample,
+            BannerSample,
         )
 }
