@@ -94,6 +94,7 @@ object AnteSamples {
             ListRowSample,
             CardSample,
             AvatarStackSample,
+            TextInputSample,
             ChipSample,
             BannerSample,
         )
