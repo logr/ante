@@ -2,6 +2,7 @@ package io.appkitchen.ante.core.designsystem.theme
 
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.RippleDefaults
 import androidx.compose.material3.Typography
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -184,6 +185,39 @@ class TokenConformanceTest {
             tokens.obj("typography").obj("overriddenRoles").isEmpty(),
         )
         assertEquals(Typography(), AnteTypography)
+    }
+
+    @Test
+    fun stateLayers_matchTokenSheet() {
+        val layers = tokens.obj("color").obj("stateLayers")
+        val actual =
+            mapOf(
+                "hover" to AnteStateLayers.HOVER,
+                "focus" to AnteStateLayers.FOCUS,
+                "pressed" to AnteStateLayers.PRESSED,
+                "dragged" to AnteStateLayers.DRAGGED,
+                "disabledContent" to AnteStateLayers.DISABLED_CONTENT,
+                "disabledContainer" to AnteStateLayers.DISABLED_CONTAINER,
+            )
+        assertEquals("every state layer in the sheet is modelled", layers.keys, actual.keys)
+        for ((name, value) in actual) {
+            assertEquals(name, layers[name]!!.jsonPrimitive.content.toFloat(), value, 0f)
+        }
+    }
+
+    /**
+     * Components get pressed/focus/hover/dragged layers from Material's ripple rather than drawing
+     * their own, which is only correct while Material's defaults equal the sheet. If a Material
+     * bump moves them, this is what says so; the fix is a custom RippleConfiguration, not a
+     * threshold.
+     */
+    @Test
+    fun rippleDefaults_matchStateLayerTokens() {
+        val ripple = RippleDefaults.RippleAlpha
+        assertEquals("pressed", AnteStateLayers.PRESSED, ripple.pressedAlpha, 0f)
+        assertEquals("focus", AnteStateLayers.FOCUS, ripple.focusedAlpha, 0f)
+        assertEquals("hover", AnteStateLayers.HOVER, ripple.hoveredAlpha, 0f)
+        assertEquals("dragged", AnteStateLayers.DRAGGED, ripple.draggedAlpha, 0f)
     }
 
     @Test

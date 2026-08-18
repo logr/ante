@@ -30,10 +30,12 @@ import androidx.compose.runtime.ReadOnlyComposable
 fun AnteTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colorScheme = if (darkTheme) AnteDarkColorScheme else AnteLightColorScheme
     val moneyColors = if (darkTheme) AnteDarkMoneyColors else AnteLightMoneyColors
+    val avatarColors = if (darkTheme) AnteAvatarColors.Dark else AnteAvatarColors.Light
 
     CompositionLocalProvider(
         LocalAnteSpacing provides AnteSpacing.Default,
         LocalAnteMoneyColors provides moneyColors,
+        LocalAnteAvatarColors provides avatarColors,
         LocalAnteTextStyles provides AnteTextStyles.Default,
     ) {
         MaterialTheme(
@@ -56,6 +58,9 @@ object AnteTheme {
 
     val money: AnteMoneyColors
         @Composable @ReadOnlyComposable get() = LocalAnteMoneyColors.current
+
+    val avatarColors: AnteAvatarColors
+        @Composable @ReadOnlyComposable get() = LocalAnteAvatarColors.current
 
     val textStyles: AnteTextStyles
         @Composable @ReadOnlyComposable get() = LocalAnteTextStyles.current
