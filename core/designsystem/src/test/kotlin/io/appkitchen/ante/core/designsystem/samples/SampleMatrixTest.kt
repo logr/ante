@@ -41,6 +41,12 @@ class SampleMatrixTest {
     private companion object {
         /** Component id -> capture count, straight from the spec's per-component totals. */
         val EXPECTED_CAPTURES: Map<String, Int> =
-            mapOf("button" to 14, "money_text" to 13, "avatar_stack" to 6, "chip" to 9)
+            mapOf(
+                "button" to 14,
+                "money_text" to 13,
+                "list_row" to 14,
+                "avatar_stack" to 6,
+                "chip" to 9,
+            )
     }
 }
