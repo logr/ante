@@ -35,8 +35,8 @@ import io.appkitchen.ante.core.designsystem.theme.AnteTheme
  * of three is fixed, not a parameter. The overflow tile is a circle that widens into a pill for a
  * count that does not fit - "+99" is never clipped.
  *
- * Colour and initials derivation are the spec's rules as code: see `AnteAvatarColors` and
- * [initials]. Keyed to the member id, so a rename never recolours.
+ * Color and initials derivation are the spec's rules as code: see `AnteAvatarColors` and
+ * [initials]. Keyed to the member id, so a rename never recolors.
  */
 @Composable
 fun AnteAvatarStack(
