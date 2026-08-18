@@ -30,4 +30,14 @@ spotless {
         targetExclude("**/build/**")
         ktfmt(ktfmtVersion).kotlinlangStyle()
     }
+    json {
+        target("**/*.json")
+        // Spotless is not gitignore-aware: without these it rewrites the untracked
+        // agent-skill JSON under .claude/ and any IDE/Gradle metadata.
+        targetExclude("**/build/**", ".idea/**", ".gradle/**")
+        // gson preserves key order (tokens.json's ordering is meaningful) and splits every
+        // property onto its own line, matching IntelliJ's JSON defaults. Indent must be set
+        // explicitly — Spotless defaults to 4, .editorconfig says 2.
+        gson().indentWithSpaces(2)
+    }
 }

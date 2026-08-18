@@ -30,3 +30,17 @@ end_of_line = crlf
 
 [gradle/wrapper/gradle-wrapper.properties]
 insert_final_newline = false
+
+[*.json]
+# The build formats JSON with Spotless + gson; these keys only align the IDE's formatter
+# with what gson produces. keep_blank_lines_in_code = 0 matters most: IntelliJ otherwise
+# preserves blank lines between properties, which gson strips on reserialization.
+ij_json_keep_blank_lines_in_code = 0
+ij_json_object_wrapping = split_into_lines
+ij_json_array_wrapping = split_into_lines
+ij_json_property_alignment = do_not_align
+ij_json_space_after_colon = true
+ij_json_space_before_colon = false
+ij_json_spaces_within_braces = false
+ij_json_spaces_within_brackets = false
+ij_json_wrap_long_lines = false
