@@ -18,6 +18,7 @@ class SampleMatrixTest {
     fun captureCounts_matchSpec() {
         val actual = AnteSamples.components.associate { it.id to it.captureCount }
         assertEquals(EXPECTED_CAPTURES, actual)
+        assertEquals("spec §5: 87 frames total", SPEC_TOTAL, actual.values.sum())
     }
 
     @Test
@@ -39,6 +40,8 @@ class SampleMatrixTest {
     }
 
     private companion object {
+        const val SPEC_TOTAL = 87
+
         /** Component id -> capture count, straight from the spec's per-component totals. */
         val EXPECTED_CAPTURES: Map<String, Int> =
             mapOf(

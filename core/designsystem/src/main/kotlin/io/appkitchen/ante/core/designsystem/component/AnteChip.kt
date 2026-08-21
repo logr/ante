@@ -34,7 +34,7 @@ enum class ChipVariant {
  * The chip (spec §3.7): a choice in a single-select group, a small action, or a static tag.
  *
  * Choice and Action are Material [Surface]s with the selectable/clickable overloads, so pressed and
- * focus layers are the shared ripple on the variant's content colour, and the touch target expands
+ * focus layers are the shared ripple on the variant's content color, and the touch target expands
  * to 48dp around a 32dp visual through Material's minimum-interactive-size rule rather than by
  * padding drawn here. A Choice or Action with no `onClick` keeps the 48dp layout so a row of chips
  * stays aligned when one is inert. Static is 20dp, plain text, and reserves no target at all.
@@ -88,7 +88,7 @@ fun AnteChip(
 }
 
 /**
- * Choice and Action share everything but colours and role. [selected] non-null selects the
+ * Choice and Action share everything but colors and role. [selected] non-null selects the
  * selectable Surface overload (Choice); null the clickable one (Action).
  */
 @Composable

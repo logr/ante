@@ -186,7 +186,7 @@ private fun DetailPage(
 }
 
 /**
- * A component's frames, top to bottom in spec order. Each frame is labelled with its golden name so
+ * A component's frames, top to bottom in spec order. Each frame is labeled with its golden name so
  * a catalog screen and a failing golden can be matched by eye.
  */
 @Composable

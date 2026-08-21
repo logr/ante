@@ -5,7 +5,7 @@ import java.text.BreakIterator
 import java.util.Locale
 
 /**
- * What an avatar needs to know about a member: a stable id to derive colour from and a name to
+ * What an avatar needs to know about a member: a stable id to derive color from and a name to
  * derive initials from. Nothing else - never a payer, never a balance.
  *
  * Deliberately not `core:model`'s `Member`. The design system has no dependency on the domain, and

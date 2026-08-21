@@ -57,10 +57,10 @@ class ComponentSample(val id: String, val title: String, val frames: List<Sample
 /**
  * Renders a frame the one way it is ever rendered.
  *
- * On a [Surface] so the frame carries the theme's surface and content colours itself - a capture is
- * otherwise drawn on the host window with the default black content colour, which makes a dark
- * frame a lie. Full width, so trailing-aligned content (amount columns) lands where it does in the
- * app rather than hugging the component's intrinsic width.
+ * On a [Surface] so the frame carries the theme's surface and content colors itself - a capture is
+ * otherwise drawn on the host window with the default black content color, which makes a dark frame
+ * a lie. Full width, so trailing-aligned content (amount columns) lands where it does in the app
+ * rather than hugging the component's intrinsic width.
  */
 @Composable
 fun SampleFrame.Render(modifier: Modifier = Modifier) {
