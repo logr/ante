@@ -1,6 +1,7 @@
 plugins {
     id("ante.android.application")
     id("ante.android.compose")
+    id("org.jetbrains.kotlin.plugin.parcelize")
 }
 
 // compileSdk, minSdk, targetSdk, Java 17 compatibility and core library desugaring all come

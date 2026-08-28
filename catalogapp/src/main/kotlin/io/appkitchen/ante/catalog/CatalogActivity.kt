@@ -1,6 +1,7 @@
 package io.appkitchen.ante.catalog
 
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
@@ -38,6 +39,7 @@ import io.appkitchen.ante.core.designsystem.samples.ComponentSample
 import io.appkitchen.ante.core.designsystem.samples.Render
 import io.appkitchen.ante.core.designsystem.samples.TokenSample
 import io.appkitchen.ante.core.designsystem.theme.AnteTheme
+import kotlinx.parcelize.Parcelize
 
 /**
  * The design system catalog.
@@ -59,8 +61,13 @@ class CatalogActivity : ComponentActivity() {
     }
 }
 
-/** The token page; the one non-component page. Not a component id, so it cannot collide. */
-private const val TOKENS_PAGE = "tokens"
+sealed interface PageType : Parcelable {
+    @Parcelize data object Root : PageType
+
+    @Parcelize data object Tokens : PageType
+
+    @Parcelize data class Component(val id: String) : PageType
+}
 
 @Composable
 private fun CatalogApp() {
@@ -69,53 +76,54 @@ private fun CatalogApp() {
     val systemDark = isSystemInDarkTheme()
     val darkTheme = pinnedDark ?: systemDark
 
-    // null is the list; otherwise TOKENS_PAGE or a ComponentSample id.
-    var page by rememberSaveable { mutableStateOf<String?>(null) }
-    BackHandler(enabled = page != null) { page = null }
+    var page by rememberSaveable { mutableStateOf<PageType>(PageType.Root) }
+    BackHandler(enabled = page != PageType.Root) { page = PageType.Root }
 
     AnteTheme(darkTheme = darkTheme) {
-        val current = page
-        val component = AnteSamples.components.firstOrNull { it.id == current }
-        when {
-            current == null ->
+        when (val current = page) {
+            is PageType.Root ->
                 ListPage(
                     darkTheme = darkTheme,
                     onToggleTheme = { pinnedDark = !darkTheme },
                     onOpen = { page = it },
                 )
-            current == TOKENS_PAGE ->
+            is PageType.Tokens ->
                 DetailPage(
                     title = stringResource(R.string.page_tokens),
                     darkTheme = darkTheme,
                     onToggleTheme = { pinnedDark = !darkTheme },
-                    onBack = { page = null },
+                    onBack = { page = PageType.Root },
                 ) {
                     TokenSample(modifier = Modifier.verticalScroll(rememberScrollState()))
                 }
-            component != null ->
-                DetailPage(
-                    title = component.title,
-                    darkTheme = darkTheme,
-                    onToggleTheme = { pinnedDark = !darkTheme },
-                    onBack = { page = null },
-                ) {
-                    ComponentPage(component)
+            is PageType.Component -> {
+                val component = AnteSamples.components.firstOrNull { it.id == current.id }
+                if (component != null) {
+                    DetailPage(
+                        title = component.title,
+                        darkTheme = darkTheme,
+                        onToggleTheme = { pinnedDark = !darkTheme },
+                        onBack = { page = PageType.Root },
+                    ) {
+                        ComponentPage(component)
+                    }
+                } else {
+                    // A stale id restored from saved state that no longer names a component: show
+                    // the list rather than a blank page. Back clears the stale id.
+                    ListPage(
+                        darkTheme = darkTheme,
+                        onToggleTheme = { pinnedDark = !darkTheme },
+                        onOpen = { page = it },
+                    )
                 }
-            // A stale id restored from saved state that no longer names a component: show the
-            // list rather than a blank page. Back clears the stale id.
-            else ->
-                ListPage(
-                    darkTheme = darkTheme,
-                    onToggleTheme = { pinnedDark = !darkTheme },
-                    onOpen = { page = it },
-                )
+            }
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ListPage(darkTheme: Boolean, onToggleTheme: () -> Unit, onOpen: (String) -> Unit) {
+private fun ListPage(darkTheme: Boolean, onToggleTheme: () -> Unit, onOpen: (PageType) -> Unit) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -130,7 +138,7 @@ private fun ListPage(darkTheme: Boolean, onToggleTheme: () -> Unit, onOpen: (Str
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.page_tokens)) },
                     trailingContent = { Icon(AnteIcons.ChevronRight, contentDescription = null) },
-                    modifier = Modifier.clickable { onOpen(TOKENS_PAGE) },
+                    modifier = Modifier.clickable { onOpen(PageType.Tokens) },
                 )
                 HorizontalDivider()
             }
@@ -147,7 +155,7 @@ private fun ListPage(darkTheme: Boolean, onToggleTheme: () -> Unit, onOpen: (Str
                         )
                     },
                     trailingContent = { Icon(AnteIcons.ChevronRight, contentDescription = null) },
-                    modifier = Modifier.clickable { onOpen(component.id) },
+                    modifier = Modifier.clickable { onOpen(PageType.Component(component.id)) },
                 )
                 HorizontalDivider()
             }

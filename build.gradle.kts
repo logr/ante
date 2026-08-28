@@ -3,14 +3,18 @@
 // root build loads it. Without the `apply false` aliases below, applying `ante.android.application`
 // fails with NoClassDefFoundError on ApplicationExtension.
 //
-// One alias per external plugin the convention plugins apply. `android.library` resolves to the
-// same com.android.tools.build:gradle artifact as `android.application` and so adds nothing to the
-// classpath, but it is listed to keep that correspondence exact.
+// One alias per external plugin the convention plugins apply, plus `kotlin.parcelize`, which
+// `:catalogapp` applies directly: only this build can name its version, because KGP is already on
+// the classpath (via `kotlin.jvm` below) and a versioned request from a subproject is rejected.
+// `android.library` resolves to the same com.android.tools.build:gradle artifact as
+// `android.application` and so adds nothing to the classpath, but it is listed to keep that
+// correspondence exact.
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.parcelize) apply false
     alias(libs.plugins.roborazzi) apply false
     alias(libs.plugins.spotless)
 }
