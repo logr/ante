@@ -3,4 +3,7 @@
     <string name="app_name">Ante Catalog</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
+    <string name="page_tokens">Tokens</string>
+    <string name="action_back">Back</string>
+    <string name="frame_count">%1$d frames · %2$d captures</string>
 </resources>

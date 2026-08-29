@@ -1,0 +1,166 @@
+/*
+ * Copyright 2021 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Kotlin port of material-color-utilities java/utils/ColorUtils.java
+ * (github.com/material-foundation/material-color-utilities @ f05459ea2170f3be610f89a4ddeee8843c2deb61).
+ * Modifications: translated to Kotlin, package renamed, `internal` visibility, unused members
+ * dropped (see NOTICE.md). Algorithm and constants unchanged.
+ */
+
+package io.appkitchen.ante.core.designsystem.hct
+
+import kotlin.math.pow
+
+/**
+ * Color science utilities.
+ *
+ * Utility methods for color science constants and color space conversions that aren't HCT or CAM16.
+ */
+internal object ColorUtils {
+
+    val SRGB_TO_XYZ: Array<DoubleArray> =
+        arrayOf(
+            doubleArrayOf(0.41233895, 0.35762064, 0.18051042),
+            doubleArrayOf(0.2126, 0.7152, 0.0722),
+            doubleArrayOf(0.01932141, 0.11916382, 0.95034478),
+        )
+
+    val WHITE_POINT_D65: DoubleArray = doubleArrayOf(95.047, 100.0, 108.883)
+
+    /** Converts a color from RGB components to ARGB format. */
+    fun argbFromRgb(red: Int, green: Int, blue: Int): Int =
+        (255 shl 24) or ((red and 255) shl 16) or ((green and 255) shl 8) or (blue and 255)
+
+    /** Converts a color from linear RGB components to ARGB format. */
+    fun argbFromLinrgb(linrgb: DoubleArray): Int {
+        val r = delinearized(linrgb[0])
+        val g = delinearized(linrgb[1])
+        val b = delinearized(linrgb[2])
+        return argbFromRgb(r, g, b)
+    }
+
+    /** Returns the red component of a color in ARGB format. */
+    fun redFromArgb(argb: Int): Int = (argb shr 16) and 255
+
+    /** Returns the green component of a color in ARGB format. */
+    fun greenFromArgb(argb: Int): Int = (argb shr 8) and 255
+
+    /** Returns the blue component of a color in ARGB format. */
+    fun blueFromArgb(argb: Int): Int = argb and 255
+
+    /** Converts a color from XYZ to ARGB. */
+    fun xyzFromArgb(argb: Int): DoubleArray {
+        val r = linearized(redFromArgb(argb))
+        val g = linearized(greenFromArgb(argb))
+        val b = linearized(blueFromArgb(argb))
+        return MathUtils.matrixMultiply(doubleArrayOf(r, g, b), SRGB_TO_XYZ)
+    }
+
+    /**
+     * Converts an L* value to an ARGB representation.
+     *
+     * @param lstar L* in L*a*b*
+     * @return ARGB representation of grayscale color with lightness matching L*
+     */
+    fun argbFromLstar(lstar: Double): Int {
+        val y = yFromLstar(lstar)
+        val component = delinearized(y)
+        return argbFromRgb(component, component, component)
+    }
+
+    /**
+     * Computes the L* value of a color in ARGB representation.
+     *
+     * @param argb ARGB representation of a color
+     * @return L*, from L*a*b*, coordinate of the color
+     */
+    fun lstarFromArgb(argb: Int): Double {
+        val y = xyzFromArgb(argb)[1]
+        return 116.0 * labF(y / 100.0) - 16.0
+    }
+
+    /**
+     * Converts an L* value to a Y value.
+     *
+     * L* in L*a*b* and Y in XYZ measure the same quantity, luminance.
+     *
+     * L* measures perceptual luminance, a linear scale. Y in XYZ measures relative luminance, a
+     * logarithmic scale.
+     *
+     * @param lstar L* in L*a*b*
+     * @return Y in XYZ
+     */
+    fun yFromLstar(lstar: Double): Double = 100.0 * labInvf((lstar + 16.0) / 116.0)
+
+    /**
+     * Linearizes an RGB component.
+     *
+     * @param rgbComponent 0 <= rgb_component <= 255, represents R/G/B channel
+     * @return 0.0 <= output <= 100.0, color channel converted to linear RGB space
+     */
+    fun linearized(rgbComponent: Int): Double {
+        val normalized = rgbComponent / 255.0
+        return if (normalized <= 0.040449936) {
+            normalized / 12.92 * 100.0
+        } else {
+            ((normalized + 0.055) / 1.055).pow(2.4) * 100.0
+        }
+    }
+
+    /**
+     * Delinearizes an RGB component.
+     *
+     * @param rgbComponent 0.0 <= rgb_component <= 100.0, represents linear R/G/B channel
+     * @return 0 <= output <= 255, color channel converted to regular RGB space
+     */
+    fun delinearized(rgbComponent: Double): Int {
+        val normalized = rgbComponent / 100.0
+        val delinearized =
+            if (normalized <= 0.0031308) {
+                normalized * 12.92
+            } else {
+                1.055 * normalized.pow(1.0 / 2.4) - 0.055
+            }
+        return MathUtils.clampInt(0, 255, Math.round(delinearized * 255.0).toInt())
+    }
+
+    /**
+     * Returns the standard white point; white on a sunny day.
+     *
+     * @return The white point
+     */
+    fun whitePointD65(): DoubleArray = WHITE_POINT_D65
+
+    fun labF(t: Double): Double {
+        val e = 216.0 / 24389.0
+        val kappa = 24389.0 / 27.0
+        return if (t > e) {
+            t.pow(1.0 / 3.0)
+        } else {
+            (kappa * t + 16) / 116
+        }
+    }
+
+    fun labInvf(ft: Double): Double {
+        val e = 216.0 / 24389.0
+        val kappa = 24389.0 / 27.0
+        val ft3 = ft * ft * ft
+        return if (ft3 > e) {
+            ft3
+        } else {
+            (116 * ft - 16) / kappa
+        }
+    }
+}
