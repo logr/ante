@@ -2,7 +2,7 @@
 agp = "9.3.1"
 kotlin = "2.4.10"
 
-composeBom = "2026.06.01"
+composeBom = "2026.08.00"
 desugarJdkLibs = "2.1.5"
 
 androidxActivity = "1.13.0"
