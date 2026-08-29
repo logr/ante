@@ -8,7 +8,7 @@ desugarJdkLibs = "2.1.5"
 androidxActivity = "1.13.0"
 androidxCore = "1.19.0"
 
-spotless = "8.9.0"
+spotless = "8.10.0"
 ktfmt = "0.64"
 
 junit = "4.13.2"
