@@ -15,10 +15,13 @@ import io.appkitchen.ante.core.designsystem.theme.AnteStateLayers
 import io.appkitchen.ante.core.designsystem.theme.AnteTheme
 import io.appkitchen.ante.core.designsystem.theme.MoneyTone
 
-/** Which money type style an amount takes: net position, row amount, or share line. */
+/** Which money type style an amount takes. Values mirror the moneyLarge/Medium/Small tokens. */
 enum class MoneyStyle {
+    /** Net position (Ledger summary). */
     Large,
+    /** Row amounts, balances, the split tally. */
     Medium,
+    /** Share lines, plan sublines. */
     Small,
 }
 
