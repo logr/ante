@@ -17,7 +17,7 @@ val AvatarStackSample: ComponentSample =
     )
 
 /**
- * Fixed ids, because colour is derived from the id: a golden must not depend on how a sample
+ * Fixed ids, because color is derived from the id: a golden must not depend on how a sample
  * happened to be constructed. Names cover the initials rule's cases (two words, one word).
  */
 internal val SampleMembers: List<AvatarMember> =

@@ -95,9 +95,9 @@ sealed interface Trailing {
  *
  * [voided] dims every piece of content to the disabled-content alpha, strikes the title and the
  * amount, and appends a static "Voided" chip - and the row stays in the ledger and stays tappable.
- * [SyncState.Queued] appends "· queued" plus a schedule glyph in the pending colour without
- * touching the amount's tone; [SyncState.Failed] draws the 3dp error rule at the leading edge -
- * which means failed-sync and nothing else, app-wide - and replaces the byline with the retry copy.
+ * [SyncState.Queued] appends "· queued" plus a schedule glyph in the pending color without touching
+ * the amount's tone; [SyncState.Failed] draws the 3dp error rule at the leading edge - which means
+ * failed-sync and nothing else, app-wide - and replaces the byline with the retry copy.
  *
  * At 2x font scale and above the byline may wrap to two lines and the amount stacks under the title
  * rather than shrinking. Money never truncates: the title column yields first.

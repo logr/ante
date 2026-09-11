@@ -55,7 +55,7 @@ sealed interface ShareValue {
  *
  * Label sits above the field and is always visible - no floating-label trick to lose. Single line;
  * overflow scrolls, user input is never ellipsized. No `enabled` exists: fields never disable, only
- * CTAs do. [isError] switches label, border and [supportingText] to the error colour and announces
+ * CTAs do. [isError] switches label, border and [supportingText] to the error color and announces
  * the supporting text as the error.
  *
  * [interactionSource] is the usual Material hook so a screen can observe focus (Add expense focuses
