@@ -47,6 +47,7 @@ class SampleMatrixTest {
                 "list_row" to 14,
                 "card" to 6,
                 "avatar_stack" to 6,
+                "text_input" to 20,
                 "chip" to 9,
                 "banner" to 5,
             )
