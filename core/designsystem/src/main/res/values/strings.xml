@@ -4,4 +4,5 @@
      passed in by the caller. -->
 <resources>
     <string name="ante_state_voided">voided</string>
+    <string name="ante_state_loading">Loading</string>
 </resources>
