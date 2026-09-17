@@ -45,6 +45,7 @@ class SampleMatrixTest {
                 "button" to 14,
                 "money_text" to 13,
                 "list_row" to 14,
+                "card" to 6,
                 "avatar_stack" to 6,
                 "chip" to 9,
             )
