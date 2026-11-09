@@ -122,7 +122,7 @@ class TokenConformanceTest {
                 "actionGap" to s.actionGap,
                 "minTouchTarget" to s.minTouchTarget,
             )
-        assertEquals("every alias in the sheet is modelled", aliases.keys, actual.keys)
+        assertEquals("every alias in the sheet is modeled", aliases.keys, actual.keys)
         for ((name, value) in actual) {
             assertEquals(name, dp(aliases.str(name)), value.value, 0f)
         }
@@ -139,7 +139,7 @@ class TokenConformanceTest {
                 "cornerLarge" to AnteShapes.large,
                 "cornerExtraLarge" to AnteShapes.extraLarge,
             )
-        assertEquals("every corner in the sheet is modelled", shape.keys, actual.keys)
+        assertEquals("every corner in the sheet is modeled", shape.keys, actual.keys)
         for ((name, value) in actual) {
             assertEquals(name, dp(shape.str(name)), cornerDp(value), 0f)
         }
@@ -155,7 +155,7 @@ class TokenConformanceTest {
                 "moneyMedium" to styles.moneyMedium,
                 "moneySmall" to styles.moneySmall,
             )
-        assertEquals("every money style in the sheet is modelled", money.keys, actual.keys)
+        assertEquals("every money style in the sheet is modeled", money.keys, actual.keys)
         for ((name, style) in actual) {
             val spec = money.obj(name)
             assertEquals("$name size", sp(spec.str("size")), style.fontSize.value, 0f)
@@ -199,7 +199,7 @@ class TokenConformanceTest {
                 "disabledContent" to AnteStateLayers.DISABLED_CONTENT,
                 "disabledContainer" to AnteStateLayers.DISABLED_CONTAINER,
             )
-        assertEquals("every state layer in the sheet is modelled", layers.keys, actual.keys)
+        assertEquals("every state layer in the sheet is modeled", layers.keys, actual.keys)
         for ((name, value) in actual) {
             assertEquals(name, layers[name]!!.jsonPrimitive.content.toFloat(), value, 0f)
         }
@@ -241,12 +241,12 @@ class TokenConformanceTest {
 
         val unaccounted = expected.keys - actual.keys - UNMAPPED_SLOTS
         assertTrue(
-            "token sheet has $theme slots with no Compose equivalent modelled: $unaccounted",
+            "token sheet has $theme slots with no Compose equivalent modeled: $unaccounted",
             unaccounted.isEmpty(),
         )
         val missingFromSheet = actual.keys - expected.keys
         assertTrue(
-            "modelled $theme slots absent from the token sheet: $missingFromSheet",
+            "modeled $theme slots absent from the token sheet: $missingFromSheet",
             missingFromSheet.isEmpty(),
         )
 
