@@ -5,6 +5,11 @@
 <resources>
     <string name="ante_state_voided">voided</string>
     <string name="ante_state_loading">Loading</string>
+    <string name="ante_state_not_synced">not yet synced</string>
+    <!-- Row copy the spec fixes (§3.3): the sync fragments and the voided tag. -->
+    <string name="ante_row_queued">· queued</string>
+    <string name="ante_row_failed_sync">couldn\'t sync · tap to retry</string>
+    <string name="ante_row_voided">Voided</string>
     <!-- Spoken for the whole avatar stack: "4 members: Alex, Sam, Maya, Jordan". -->
     <plurals name="ante_avatar_stack_members">
         <item quantity="one">%1$d member: %2$s</item>
