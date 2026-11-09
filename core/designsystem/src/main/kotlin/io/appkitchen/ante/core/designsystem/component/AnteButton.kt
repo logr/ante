@@ -39,7 +39,7 @@ enum class ButtonStyle {
  *
  * Built on Material's [Button] so pressed and focus layers come from the shared ripple rather than
  * being drawn here, and so disabled is announced natively. What is overridden is exactly what the
- * spec pins: colours per style from the theme, corner large, min height at the touch target, and
+ * spec pins: colors per style from the theme, corner large, min height at the touch target, and
  * screenHorizontal padding.
  *
  * [loading] swaps the label for an 18dp indicator without changing the button's width - the label
@@ -59,8 +59,8 @@ fun AnteButton(
     val loadingState = stringResource(R.string.ante_state_loading)
     Button(
         onClick = onClick,
-        // Loading blocks the click through `enabled` while its colours keep the enabled look; a
-        // disabled button that is not loading gets the disabled colours as usual.
+        // Loading blocks the click through `enabled` while its colors keep the enabled look; a
+        // disabled button that is not loading gets the disabled colors as usual.
         enabled = enabled && !loading,
         colors = buttonColors(style, showAsEnabled = enabled && loading),
         // Tonal elevation level0, no shadow, in every state - the sheet has no shadow anywhere.
