@@ -55,6 +55,11 @@ class AndroidScreenshotConventionPlugin : Plugin<Project> {
                 // writes to, which is the silent version of the bug it exists to prevent.
                 systemProperty("ante.screenshotDir", SCREENSHOT_DIR)
 
+                // Robolectric 4.17's FileDescriptorInterceptor reaches into
+                // jdk.internal.access.SharedSecrets, which JDK 21 does not export. Without this
+                // every sandboxed test fails with IllegalAccessException before rendering.
+                jvmArgs("--add-exports=java.base/jdk.internal.access=ALL-UNNAMED")
+
                 inputs
                     .files(layout.projectDirectory.dir(SCREENSHOT_DIR).asFileTree)
                     .withPropertyName("roborazziGoldens")
