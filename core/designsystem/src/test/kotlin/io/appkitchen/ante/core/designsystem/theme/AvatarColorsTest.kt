@@ -19,7 +19,7 @@ class AvatarColorsTest {
 
     @Test fun everyHue_meetsContrastFloor_dark() = assertAllHues(AnteAvatarColors.Dark, "dark")
 
-    /** The hue is a function of the id alone: renaming must not recolour. */
+    /** The hue is a function of the id alone: renaming must not recolor. */
     @Test
     fun hue_isStableAndInRange() {
         for (id in listOf("", "a", "member-1", "0f9d3c2a-6b7e-4e21-9c1f-2f6a5c9d1e33", "名前")) {
@@ -28,7 +28,7 @@ class AvatarColorsTest {
             assertTrue("hue $hue for '$id' out of range", hue in 0..359)
         }
         // crc32("member-1") is a fixed number; pin it so a change to the hash or the modulus is a
-        // visible decision rather than a silent recolour of every avatar in every ledger.
+        // visible decision rather than a silent recolor of every avatar in every ledger.
         assertEquals(154, AnteAvatarColors.hueFor("member-1"))
     }
 

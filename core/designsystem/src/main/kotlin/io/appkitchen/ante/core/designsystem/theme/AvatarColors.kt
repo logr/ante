@@ -6,14 +6,14 @@ import androidx.compose.ui.graphics.Color
 import io.appkitchen.ante.core.designsystem.hct.HctSolver
 import java.util.zip.CRC32
 
-/** The two colours an initials avatar is drawn with. */
+/** The two colors an initials avatar is drawn with. */
 @Immutable data class AvatarColors(val container: Color, val content: Color)
 
 /**
- * The avatar colour rule from the handoff spec (§3.5), as code.
+ * The avatar color rule from the handoff spec (§3.5), as code.
  *
  * `hue = crc32(utf8(id)) mod 360`, then `HCT(hue, chroma 16, tone N)` with the tones below. Keyed
- * to the member id rather than the name, so a rename never recolours anyone. Chroma 16 keeps every
+ * to the member id rather than the name, so a rename never recolors anyone. Chroma 16 keeps every
  * hue muted enough to sit beside the money tones without competing; the 80-point tone gap between
  * container and content is what makes the contrast guarantee - HCT tone is L*, and 80 points of L*
  * is well over 4.5:1 at any hue. `AvatarColorsTest` measures that for all 360 hues rather than
